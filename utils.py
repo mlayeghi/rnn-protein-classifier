@@ -34,14 +34,8 @@ def load_data(infile):
     return train_seqs, test_seqs, train_lebels, test_lebels
 
 def next_batch(x_data, y_data, batch_size):
-    """Returns batches of x & y"""
     '''
-    idx = []
-    for _ in range(batch_size):
-        selected = random.randint(0, x_data.shape[0]-1)
-        while selected in idx:
-            selected = random.randint(0, x_data.shape[0]-1)
-        idx.append(selected)
+    Returns batches of x & y
     '''
     # Choose a random set of row indices with the size of batch_size
     idx = np.random.choice(np.arange(len(x_data)), size=batch_size, replace=False)

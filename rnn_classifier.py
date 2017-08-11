@@ -60,14 +60,14 @@ def train(x_train, x_test, y_train, y_test, args):
     # It will be done, below in the graph. But, we also need a TF placeholder.
     # In our case, number of examples would be the batch_size, which
     # is an adjustable parameter, so we assign it to None to signify that.
-    # Our data is 1D, so 1 was assigned to the third shape dimension.
-    # The 2nd dimension is the length of protein sequences.
-    x_input = tf.placeholder(tf.float32, [None, args.n_inputs, 1])
+    # Our data is 1D, so 1 was assigned to the 2nd shape dimension.
+    # The 3rd dimension is the length of protein sequences.
+    x_input = tf.placeholder(tf.float32, [None, 1, args.n_inputs])
     # For target, the size relies again on the batch_size.
     target = tf.placeholder(tf.int32, [None])
     # Similarly, the test data must be resaped too.
     n_test_examples = len(y_test)
-    x_test = x_test.reshape((n_test_examples, args.n_inputs, 1))
+    x_test = x_test.reshape((n_test_examples, 1, args.n_inputs))
 
     # We call the model and capture the last state in the RNN network.
     final_state = rnn_model(x_input, args)
@@ -113,7 +113,7 @@ def train(x_train, x_test, y_train, y_test, args):
                 # Get the trainig batch
                 X_batch, y_batch = next_batch(x_train, y_train, args.batch_size)
                 # Reshape training batch, as explained above, in the shape of the placeholder
-                X_batch = X_batch.reshape((args.batch_size, args.n_inputs, 1))
+                X_batch = X_batch.reshape((args.batch_size, 1, args.n_inputs))
                 sess.run(training_op, feed_dict={x_input: X_batch, target: y_batch})
 
             # Obtain accuracy on training & test data
